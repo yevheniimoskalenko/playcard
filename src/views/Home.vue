@@ -13,17 +13,18 @@
           <form>
           <div class="form-group"><img src="../assets/mastercard.png" alt="mastercard"
           class="mastercard">
-            <input type="text" class="form-control card" placeholder="0000 0000 0000 0000">
+            <input type="text" class="form-control card" placeholder="0000 0000 0000 0000"
+             v-mask="'#### #### #### ####'">
           </div>
           <div class="row">
             <div class="col">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="00/00">
+              <input type="text" class="form-control" placeholder="00/00" v-mask="'##/##'">
           </div>
             </div>
             <div class="col">
             <div class="form-group">
-            <input type="text" class="form-control" placeholder="CVV">
+            <input type="text" class="form-control" placeholder="CVV"  v-mask="'###'">
           </div>
             </div>
           </div>
@@ -44,10 +45,11 @@
 </template>
 
 <script>
+import { mask } from 'vue-the-mask';
+
 export default {
   name: 'Home',
-  components: {
-  },
+  directives: { mask },
 };
 </script>
 <style lang="scss" scoped>

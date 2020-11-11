@@ -19,7 +19,7 @@
                     v-mask="'####'"
                     v-model="countUah"
                   />
-                  <small>max 1000</small>
+                  <small>max 300</small>
                 </div>
                 <div class="col-6">
                   <span>VITE</span>
@@ -74,7 +74,7 @@
               </div>
             </div>
             <div class="footer-btn">
-              <button class="btn pay">Оплатить {{ control.amount }} UAH</button>
+              <button class="btn pay">Оплатить {{ countUah }} UAH</button>
               <div class="logo">
                 <span>powered by</span>
                 <img src="http://via.placeholder.com/50x15" />
@@ -109,7 +109,7 @@ export default {
         method: 'get',
         url: 'https://api.binance.com/api/v3/ticker/price?symbol=VITEUSDT'
       }).then((res) => res.data.price)
-      this.control.amount = Math.floor(val / usdt / vite)
+      this.control.amount = (val / usdt / vite).toFixed(3)
     }
   },
   directives: { mask }

@@ -2,7 +2,7 @@
   <el-container>
     <el-main>
       <el-row type="flex" justify="center">
-        <el-col :span="5"><nuxt /> </el-col>
+        <el-col :span="4"><nuxt /> </el-col>
       </el-row>
     </el-main>
   </el-container>

@@ -1,40 +1,58 @@
 <template>
   <div class="container center">
+    <div class="brend">
+      <img src="http://via.placeholder.com/75x75" />
+    </div>
     <div class="row d-flex justify-content-center align-items-center">
       <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 center">
         <div class="form-container">
           <div class="form-top">
-            <p>
-              Будьте внимательны! Kuna Pay не является партнерем OLX Group и Nova Poshta и не
-              обрабатывает их операции
-            </p>
+            <p>Обмін криптовалюти, буде виконаний через 10 хв. Після виконаної перевірки.</p>
             <div class="group">
               <div class="row">
                 <div class="col-6">
-                  <span>UAH</span>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="1000"
-                    v-mask="'####'"
-                    v-model="countUah"
-                  />
-                  <small>max 300</small>
+                  <div class="form-group">
+                    <span>UAH</span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="1000"
+                      v-mask="'####'"
+                      v-model="countUah"
+                    />
+                    <small>max 300</small>
+                  </div>
                 </div>
+
                 <div class="col-6">
-                  <span>VITE</span>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="1000"
-                    v-model="control.amount"
-                    disabled
-                  />
+                  <div class="form-group">
+                    <span>VITE</span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="1000"
+                      v-model="control.amount"
+                      disabled
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <div class="form-group">
+            <span>Одержувачі VITE</span>
 
+            <input
+              type="text"
+              class="form-control"
+              placeholder="vite_591e456aa84fccd65e4c916c258ef3b80fadd94eab6f37518c"
+              v-model="control.vite"
+            />
+          </div>
+          <div class="form-group">
+            <span>MEMO</span>
+            <input type="text" class="form-control" placeholder="MEMO" v-model="control.memo" />
+          </div>
           <form>
             <div class="form-group">
               <div v-if="control.card[0] === '4'">
@@ -73,6 +91,15 @@
                 </div>
               </div>
             </div>
+            <div class="form-group">
+              <span>E-mail</span>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="test@test.ua"
+                v-model="control.lastname"
+              />
+            </div>
             <div class="footer-btn">
               <button class="btn pay">Оплатить {{ countUah }} UAH</button>
               <div class="logo">
@@ -92,11 +119,12 @@ import axios from 'axios'
 import { mask } from 'vue-the-mask'
 
 export default {
+  title: 'Обмін криптовалюти',
   name: 'Home',
   data() {
     return {
-      countUah: 0,
-      control: { card: '', amount: null }
+      countUah: 1,
+      control: { card: '', amount: null, vite: '', memo: '' }
     }
   },
   watch: {
@@ -109,13 +137,22 @@ export default {
         method: 'get',
         url: 'https://api.binance.com/api/v3/ticker/price?symbol=VITEUSDT'
       }).then((res) => res.data.price)
-      this.control.amount = (val / usdt / vite).toFixed(3)
+      this.control.amount = await (val / usdt / vite).toFixed(3)
     }
   },
+
   directives: { mask }
 }
 </script>
 <style lang="scss" scoped>
+.brend {
+  padding: 10px;
+  margin-top: 150px;
+  img {
+    display: block;
+    border-radius: 50%;
+  }
+}
 .mastercard {
   width: 30px;
   height: 30px;
@@ -200,6 +237,7 @@ export default {
 .center {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   height: 100vh;
 }

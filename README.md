@@ -2,7 +2,7 @@
 
 ## last version
 
-# ![medi-designer](./src/assets/prev.png)
+# ![medi-designer](./src/assets/cripto.png)
 
 ## Project setup
 

@@ -1,59 +1,122 @@
 <template>
   <div class="container center">
     <div class="row d-flex justify-content-center align-items-center">
-
-      <div class="col-6 center">
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 center">
         <div class="form-container">
           <div class="form-top">
-          <p>Будьте внимательны! Kuna Pay не является партнерем OLX Group
-            и Nova Poshta и не обрабатывает их операции</p>
-          <h2>345UAH</h2>
+            <p>
+              Будьте внимательны! Kuna Pay не является партнерем OLX Group и Nova Poshta и не
+              обрабатывает их операции
+            </p>
+            <div class="group">
+              <div class="row">
+                <div class="col-6">
+                  <span>UAH</span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="1000"
+                    v-mask="'####'"
+                    v-model="countUah"
+                  />
+                  <small>max 1000</small>
+                </div>
+                <div class="col-6">
+                  <span>VITE</span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="1000"
+                    v-model="control.amount"
+                    disabled
+                  />
+                </div>
+              </div>
+            </div>
           </div>
 
           <form>
-          <div class="form-group"><img src="../assets/mastercard.png" alt="mastercard"
-          class="mastercard">
-            <input type="text" class="form-control card" placeholder="0000 0000 0000 0000"
-             v-mask="'#### #### #### ####'">
-          </div>
-          <div class="row">
-            <div class="col">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="00/00" v-mask="'##/##'">
-          </div>
+              <div v-if="control.card[0] === '4'">
+                <img src="../assets/mastercard.svg" alt="mastercard" class="mastercard" />
+              </div>
+              <div v-else-if="control.card[0] === '5'">
+                <img src="../assets/visa.svg" alt="visa" class="mastercard" />
+              </div>
+              <input
+                type="text"
+                class="form-control card"
+                placeholder="0000 0000 0000 0000"
+                v-mask="'#### #### #### ####'"
+                v-model="control.card"
+              />
             </div>
-            <div class="col">
-            <div class="form-group">
-            <input type="text" class="form-control" placeholder="CVV"  v-mask="'###'">
-          </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Иван"
+                    v-model="control.firstName"
+                  />
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Иванов"
+                    v-model="control.lastname"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="footer-btn">
-            <button class="btn pay">Оплатить 345 UAH</button>
-            <div class="logo">
-              <span>powered by</span>
-            <img src="https://pay.kuna.io/static/img/svg/logo.svg">
+            <div class="footer-btn">
+              <button class="btn pay">Оплатить {{ control.amount }} UAH</button>
+              <div class="logo">
+                <span>powered by</span>
+                <img src="http://via.placeholder.com/50x15" />
+              </div>
             </div>
-          </div>
-
-        </form>
-      </div>
-
+          </form>
         </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mask } from 'vue-the-mask';
+import axios from 'axios'
+import { mask } from 'vue-the-mask'
 
 export default {
   name: 'Home',
-  directives: { mask },
-};
+  data() {
+    return {
+      countUah: 0,
+      control: { card: '', amount: null }
+    }
+  },
+  watch: {
+    async countUah(val) {
+      const usdt = await axios({
+        method: 'get',
+        url: 'https://api.binance.com/api/v3/ticker/price?symbol=USDTUAH'
+      }).then((res) => res.data.price)
+      const vite = await axios({
+        method: 'get',
+        url: 'https://api.binance.com/api/v3/ticker/price?symbol=VITEUSDT'
+      }).then((res) => res.data.price)
+      this.control.amount = Math.floor(val / usdt / vite)
+    }
+  },
+  directives: { mask }
+}
 </script>
 <style lang="scss" scoped>
-.mastercard{
+.mastercard {
   width: 30px;
   height: 30px;
   position: relative;
@@ -62,50 +125,52 @@ export default {
   top: 33px;
   z-index: 99;
 }
-.form-container{
-  width:75%;
+.form-container {
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.08);
+  min-width: 300px;
+  width: 75%;
   padding: 15px;
   background: #fff;
   border-radius: 5px;
 }
-.logo{
+.logo {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-    span{
-      font-size: 12px;
-      position: relative;
-      top: 15px;
+  span {
+    font-size: 12px;
+    position: relative;
+    top: 15px;
   }
 }
 .pay {
   width: 100%;
-  background: #8F00F0;
+  background: #8f00f0;
   color: #fff;
   border-radius: 7px;
-  &:hover{
-  background: #7c0fc5;
-
+  &:hover {
+    background: #7c0fc5;
   }
 }
-.form-top{
-margin:30px 0;
-display: flex;
-justify-content:center;
-flex-direction: column;
-align-items: center;
-p{
-  line-height: 16px;
-  font-size: 14px;
-}
-  p, h2{
+.form-top {
+  margin: 30px 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  p {
+    line-height: 16px;
+    font-size: 14px;
+  }
+  p,
+  h2 {
     text-align: center;
-    color: #7D2691;
+    color: #7d2691;
   }
 }
-.footer-btn{
+.footer-btn {
   margin-bottom: 30px;
   width: 100%;
   display: flex;
@@ -117,26 +182,25 @@ p{
     width: 35%;
   }
 }
-.form-control{
- border: 3px solid #F5F7F8;
- border-left:none;
- border-right:none;
- border-top:none;
- color: #1C1C1C;
- font-weight: 400;
- ::placeholder{
-   color:#ADAACE;
- }
+.form-control {
+  border: 3px solid #f5f7f8;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  color: #1c1c1c;
+  font-weight: 400;
+  ::placeholder {
+    color: #adaace;
+  }
 }
-.card{
+.card {
   padding-right: 45px;
   z-index: 1;
-
 }
-.center{
+.center {
   display: flex;
   justify-content: center;
-  align-items:center;
+  align-items: center;
   height: 100vh;
 }
 </style>

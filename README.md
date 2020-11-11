@@ -1,4 +1,4 @@
-# pagination
+# exchange cripto from element.ui
 
 # ![cripto](./assets/criptoELEM.png)
 

@@ -1,22 +1,9 @@
 <template>
-  <div>
-    <nuxt />
-  </div>
+  <el-container>
+    <el-main>
+      <el-row type="flex" justify="center">
+        <el-col :span="5"><nuxt /> </el-col>
+      </el-row>
+    </el-main>
+  </el-container>
 </template>
-<script>
-export default {
-  computed: {
-    error() {
-      return this.$store.getters.error
-    }
-  },
-  watch: {
-    error(value) {
-      this.$message({
-        message: `${value.message}`,
-        type: `${value.status}`
-      })
-    }
-  }
-}
-</script>

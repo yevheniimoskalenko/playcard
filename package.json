@@ -1,5 +1,5 @@
 {
-  "name": "pagination",
+  "name": "criptoexchange",
   "version": "1.0.0",
   "description": "nuxt,vuex,express",
   "author": "yevheniimoskalenko",
@@ -18,6 +18,7 @@
     "express": "^4.16.4",
     "ladash": "^1.2.0",
     "mongoose": "^5.9.16",
+    "normalize.css": "^8.0.1",
     "nuxt": "^2.0.0"
   },
   "devDependencies": {

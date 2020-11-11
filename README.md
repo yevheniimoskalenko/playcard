@@ -1,6 +1,6 @@
 # pagination
 
-# ![cripto](./assets/criptoELEM.png.png)
+# ![cripto](./assets/criptoELEM.png)
 
 > nuxt,vuex,express
 

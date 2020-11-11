@@ -1,5 +1,7 @@
 # pagination
 
+
+# ![medi-designer](./src/assets/criptoELEM.png)
 > nuxt,vuex,express
 
 ## Build Setup

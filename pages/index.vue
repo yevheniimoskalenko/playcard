@@ -14,7 +14,12 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="UAH" prop="valute">
-              <el-input v-model="countUAH" v-mask="'####'" />
+              <el-input
+                v-model="countUAH"
+                v-mask="'####'"
+                :minlength="2"
+                :maxlength="3"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -36,6 +41,8 @@
           />
         </el-form-item>
         <el-form-item label="Карта поповнення" prop="card">
+          <div v-if="controller.card[0] === '4'" class="mastercard"></div>
+          <div v-else-if="controller.card[0] === '5'" class="visa"></div>
           <el-input
             v-model="controller.card"
             v-mask="'#### #### #### ####'"
@@ -68,7 +75,7 @@
         </div>
         <div class="logo">
           <span>powered by</span>
-          <img src="http://via.placeholder.com/50x15" />
+          <img src="http://via.placeholder.com/50x25" />
         </div>
       </el-form>
     </el-card>
@@ -156,3 +163,53 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.mastercard {
+  width: 50px;
+  height: 35px;
+  float: right;
+  position: relative;
+  top: 40px;
+  background: url('~assets/mastercard.svg') no-repeat center;
+  z-index: 9999;
+}
+.visa {
+  width: 50px;
+  height: 35px;
+  float: right;
+  position: relative;
+  top: 40px;
+  background: url('~assets/visa.svg') no-repeat center;
+
+  z-index: 9999;
+}
+.brend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40px 0;
+  img {
+    border-radius: 50%;
+  }
+}
+.form-pay {
+  display: flex;
+  justify-content: center;
+}
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 15px;
+  span {
+    padding: 15px;
+  }
+}
+.form-header {
+  text-align: center;
+  p {
+    color: #7d2691;
+  }
+}
+</style>

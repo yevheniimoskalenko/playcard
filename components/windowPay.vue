@@ -6,10 +6,11 @@
       width="30%"
       center
     >
-      <span
-        >It should be noted that the content will not be aligned in center by
-        default</span
-      >
+      <!-- <h2>Ви відаєте:{{ candiadate.UAH }}UAH</h2> -->
+      <!-- <span>Відправляєте із :{{ candiadate.card }}</span>
+      <h2>Ви отримуєте:{{ candiadate.amount }} VITE</h2>
+      <span>На рахунок :{{ candiadate.vite }}</span> -->
+      <!-- eslint-disable-next-line -->
       <div v-html="liqform"></div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="hendler = false">Cancel</el-button>
@@ -28,6 +29,10 @@ export default {
     liqform: {
       required: true,
       type: String
+    },
+    candiadate: {
+      type: Object,
+      required: true
     }
   }
 }

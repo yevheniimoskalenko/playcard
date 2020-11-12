@@ -88,15 +88,34 @@
         </div>
       </el-form>
     </el-card>
-    <pay-form :hendler="dialog" :liqform="controller.formPay" />
+    <el-dialog
+      title="Підтвердження платіжа"
+      :visible.sync="dialog"
+      width="30%"
+      center
+    >
+      <div class="tablePay">
+        <h2>Ви відаєте:{{ countUAH }} UAH</h2>
+        <span>Відправляєте із :{{ controller.card }}</span>
+        <h2>Ви отримуєте:{{ controller.amount }} VITE</h2>
+        <span>На рахунок :{{ controller.vite }}</span>
+        <div class="form-button-pay">
+          <!-- eslint-disable-next-line -->
+      <div v-html="controller.formPay"></div>
+        </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialog = false">Cancel</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
 import { mask } from 'vue-the-mask'
-import payForm from '@/components/windowPay.vue'
+// import payForm from '@/components/windowPay.vue'
 export default {
   directives: { mask },
-  components: { payForm },
+  components: {},
   data() {
     return {
       dialog: false,
@@ -128,8 +147,12 @@ export default {
         card: [
           {
             required: true,
-            message: 'Ведіть будь ласка електройти адрес.',
+            message: 'Ведіть будь ласка карту для сплати.',
             trigger: ['blur', 'change']
+          },
+          {
+            min: 19,
+            message: 'В карті для сплати повино бути 12 цифер'
           }
         ],
         valute: [
@@ -199,6 +222,7 @@ export default {
             }
             const payButton = await this.$store.dispatch('payCoin', payForm)
             this.controller.formPay = await payButton
+            this.candiadate = payForm
             this.dialog = true
             this.loadingPay = false
           } catch (e) {
@@ -214,6 +238,22 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.tablePay {
+  padding: 10px;
+  span {
+    padding: 15px;
+    line-height: 15px;
+  }
+  h2 {
+    padding: 15px;
+  }
+}
+.form-button-pay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
 .mastercard {
   width: 50px;
   height: 35px;

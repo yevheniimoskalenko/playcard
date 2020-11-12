@@ -123,12 +123,13 @@ export default {
       loadingPay: false,
       countUAH: 10,
       controller: {
+        email: 'test@test.ua',
         amount: null,
-        vite: '',
+        vite: 'vite_591e456aa84fccd65e4c916c258ef3b80fadd94eab6f37518c',
         memo: '',
-        card: '',
-        firstName: '',
-        lastName: '',
+        card: '4242424242424242',
+        firstName: 'Yevhenii',
+        lastName: 'Moskalenko',
         formPay: null
       },
       rules: {
@@ -261,7 +262,7 @@ export default {
   position: relative;
   top: 40px;
   background: url('~assets/mastercard.svg') no-repeat center;
-  z-index: 9999;
+  z-index: 2;
 }
 .visa {
   width: 50px;
@@ -271,7 +272,7 @@ export default {
   top: 40px;
   background: url('~assets/visa.svg') no-repeat center;
 
-  z-index: 9999;
+  z-index: 2;
 }
 .brend {
   display: flex;

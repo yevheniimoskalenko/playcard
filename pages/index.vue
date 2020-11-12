@@ -7,7 +7,7 @@
       <div class="form-header">
         <p>
           Обмін криптовалюти, буде виконаний через 10 хв. Після виконаної
-          перевірки.
+          перевірки. Комісія переселяння коштів не врахована сайтом.
         </p>
       </div>
       <el-form ref="form" :model="controller" :rules="rules">
@@ -19,12 +19,17 @@
                 v-mask="'####'"
                 :minlength="2"
                 :maxlength="3"
+                @keyup.native="genSum($event)"
               />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="VITE" prop="amount">
-              <el-input v-model="controller.amount" disabled />
+              <el-input
+                v-model="controller.amount"
+                v-loading="loading"
+                disabled
+              />
             </el-form-item>
           </el-col>
         </el-row>
@@ -69,7 +74,11 @@
           <el-input v-model="controller.email" placeholder="test@test.ua" />
         </el-form-item>
         <div class="form-pay">
-          <el-button type="primary" round
+          <el-button
+            v-loading="loadingPay"
+            type="primary"
+            round
+            @click="genButton"
             >Сплатити {{ countUAH }} UAH</el-button
           >
         </div>
@@ -79,15 +88,20 @@
         </div>
       </el-form>
     </el-card>
+    <pay-form :hendler="dialog" :liqform="controller.formPay" />
   </div>
 </template>
 <script>
-import axios from 'axios'
 import { mask } from 'vue-the-mask'
+import payForm from '@/components/windowPay.vue'
 export default {
   directives: { mask },
+  components: { payForm },
   data() {
     return {
+      dialog: false,
+      loading: false,
+      loadingPay: false,
       countUAH: 10,
       controller: {
         amount: null,
@@ -95,7 +109,8 @@ export default {
         memo: '',
         card: '',
         firstName: '',
-        lastName: ''
+        lastName: '',
+        formPay: null
       },
       rules: {
         email: [
@@ -147,19 +162,54 @@ export default {
       }
     }
   },
-  watch: {
-    async countUAH(val) {
-      const usdt = await axios({
-        method: 'get',
-        url: 'https://api.binance.com/api/v3/ticker/price?symbol=USDTUAH'
-      }).then((res) => res.data.price)
-      const vite = await axios({
-        method: 'get',
-        url: 'https://api.binance.com/api/v3/ticker/price?symbol=VITEUSDT'
-      }).then((res) => res.data.price)
-      this.controller.amount = await (val / usdt / vite).toFixed(3)
-      await console.log(this.controller.amount)
+
+  async created() {
+    await this.genSum()
+  },
+
+  methods: {
+    async genSum() {
+      this.loading = true
+      try {
+        const formData = {
+          UAH: this.countUAH
+        }
+        const values = await this.$store.dispatch('exchangeValues', formData)
+        this.controller.amount = await values
+        this.loading = false
+      } catch (e) {
+        console.log(e)
+        this.loading = false
+      }
+    },
+    genButton() {
+      this.$refs.form.validate(async (valid) => {
+        if (valid) {
+          try {
+            this.loadingPay = true
+            const payForm = {
+              UAH: this.countUAH,
+              amount: this.controller.amount,
+              vite: this.controller.vite,
+              card: this.controller.card,
+              memo: this.controller.memo,
+              firstName: this.controller.firstName,
+              lastName: this.controller.lastName,
+              email: this.controller.email
+            }
+            const payButton = await this.$store.dispatch('payCoin', payForm)
+            this.controller.formPay = await payButton
+            this.dialog = true
+            this.loadingPay = false
+          } catch (e) {
+            this.loadingPay = false
+          }
+        }
+      })
     }
+  },
+  head: {
+    title: 'Обмін валют'
   }
 }
 </script>

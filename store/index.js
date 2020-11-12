@@ -10,14 +10,19 @@ export const getters = {
   status: (state) => state.status
 }
 export const actions = {
-  async tickets({ commit }, payload) {
+  async exchangeValues({ commit }, payload) {
     try {
-      return await this.$axios.$get(
-        `/api/pagination/${payload.id}/${payload.page}`
-      )
+      return await this.$axios.$post(`/api/exchange/`, payload)
     } catch (e) {
       commit('SetStatus', e)
       throw e
+    }
+  },
+  async payCoin({ commit }, payload) {
+    try {
+      return await this.$axios.$post(`/api/pay/`, payload)
+    } catch (e) {
+      commit('SetStatus', e)
     }
   }
 }

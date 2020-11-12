@@ -1,11 +1,11 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const pagination = require('./routers/pagination.routes')
+const routers = require('./routers/rout.routers')
 const app = express()
 
 mongoose
   .connect(
-    'mongodb+srv://yevhenii:was123456789was@cluster0-vrxpp.mongodb.net/test',
+    'mongodb+srv://yevhenii:was123456789was@cluster0-vrxpp.mongodb.net/cripto',
     {
       useNewUrlParser: true,
       useUnifiedTopology: true
@@ -17,6 +17,6 @@ mongoose
   })
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use('/api/', pagination)
+app.use('/api/', routers)
 
 module.exports = app

@@ -1,8 +1,9 @@
 const Base64 = require('js-base64').Base64
+const TelegramBot = require('node-telegram-bot-api')
 const sha1 = require('sha1')
 const Pay = require('../model/pay.model')
 require('dotenv').config()
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   const { signature, data } = req.body
   const sign = Base64.encode(
     sha1(process.env.liqprivate_key + data + process.env.liqprivate_key)
@@ -10,9 +11,8 @@ module.exports = (req, res) => {
   if (signature !== sign) {
     const datas = JSON.parse(Base64.decode(data))
     const candidat = JSON.parse(Base64.decode(datas.dae))
-    console.log(candidat.amount)
     const pay = new Pay({
-      amount: datas.amount,
+      amount: candidat.amount,
       payment_id: datas.payment_id,
       status: datas.status,
       order_id: datas.order_id,
@@ -24,7 +24,16 @@ module.exports = (req, res) => {
       lastName: candidat.lastName,
       email: candidat.email
     })
-    pay.save()
+    await pay.save()
+
+    const bot = new TelegramBot(process.env.tBot, { polling: false })
+    const message = `<strong>Нава конвертація валюти </strong>
+
+<i>На суму: <b>${candidat.UAH}</b></i>
+<i>В монетах це:  <b>${candidat.amount}</b></i>
+<i>На адрес: <b>${candidat.vite}</b></i>
+    `
+    await bot.sendMessage(458568640, message, { parse_mode: 'HTML' })
   }
   return res.json('OK')
 }

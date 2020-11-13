@@ -105,7 +105,7 @@
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialog = false">Cancel</el-button>
+        <el-button @click="dialog = false">Відмінити</el-button>
       </span>
     </el-dialog>
   </div>

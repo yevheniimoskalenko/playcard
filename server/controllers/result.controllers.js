@@ -33,7 +33,9 @@ module.exports = async (req, res) => {
 <i>В монетах це:  <b>${candidat.amount}</b></i>
 <i>На адрес: <b>${candidat.vite}</b></i>
     `
-    await bot.sendMessage(458568640, message, { parse_mode: 'HTML' })
+    if (datas.status === 'success') {
+      await bot.sendMessage(458568640, message, { parse_mode: 'HTML' })
+    }
   }
   return res.json('OK')
 }

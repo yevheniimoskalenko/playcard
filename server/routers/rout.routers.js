@@ -6,6 +6,6 @@ const resultPay = require('../controllers/result.controllers')
 const router = Router()
 router.post('/exchange/', exchange)
 router.post('/pay/', payCoin)
-router.post('/result/', resultPay)
+router.post('/result', resultPay)
 
 module.exports = router

@@ -3,7 +3,7 @@ const TelegramBot = require('node-telegram-bot-api')
 const sha1 = require('sha1')
 const Pay = require('../model/pay.model')
 require('dotenv').config()
-module.exports = async (req, res) => {
+module.exports = (req, res) => {
   const { signature, data } = req.body
   const sign = Base64.encode(
     sha1(process.env.liqprivate_key + data + process.env.liqprivate_key)
@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
       lastName: candidat.lastName,
       email: candidat.email
     })
-    await pay.save()
+    pay.save()
 
     const bot = new TelegramBot(process.env.tBot, { polling: false })
     const message = `<strong>Нава конвертація валюти </strong>
@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
 <i>На адрес: <b>${candidat.vite}</b></i>
     `
     if (datas.status === 'success') {
-      await bot.sendMessage(458568640, message, { parse_mode: 'HTML' })
+      bot.sendMessage(458568640, message, { parse_mode: 'HTML' })
     }
   }
   return res.json('OK')

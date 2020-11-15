@@ -123,13 +123,13 @@ export default {
       loadingPay: false,
       countUAH: 10,
       controller: {
-        email: 'test@test.ua',
+        email: '',
         amount: null,
-        vite: 'vite_591e456aa84fccd65e4c916c258ef3b80fadd94eab6f37518c',
+        vite: '',
         memo: '',
-        card: '4242424242424242',
-        firstName: 'Yevhenii',
-        lastName: 'Moskalenko',
+        card: '',
+        firstName: '',
+        lastName: '',
         formPay: null
       },
       rules: {

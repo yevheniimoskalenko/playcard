@@ -91,17 +91,21 @@
     <el-dialog
       title="Підтвердження платіжа"
       :visible.sync="dialog"
-      width="30%"
+      class="dialog"
+      :fullscreen="true"
+      :destroy-on-close="true"
       center
     >
-      <div class="tablePay">
-        <h2>Ви відаєте:{{ countUAH }} UAH</h2>
-        <span>Відправляєте із :{{ controller.card }}</span>
-        <h2>Ви отримуєте:{{ controller.amount }} VITE</h2>
-        <span>На рахунок :{{ controller.vite }}</span>
-        <div class="form-button-pay">
-          <!-- eslint-disable-next-line -->
+      <div class="model-center">
+        <div class="tablePay">
+          <h2>Ви відаєте:{{ countUAH }} UAH</h2>
+          <span>Відправляєте із :{{ controller.card }}</span>
+          <h2>Ви отримуєте:{{ controller.amount }} VITE</h2>
+          <span>На рахунок :{{ controller.vite }}</span>
+          <div class="form-button-pay">
+            <!-- eslint-disable-next-line -->
       <div v-html="controller.formPay"></div>
+          </div>
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -239,7 +243,79 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@media (max-width: 576px) {
+  .tablePay {
+    font-size: 12px;
+
+    h2 {
+      font-size: 12px;
+    }
+    span {
+      font-size: 12px;
+    }
+    button {
+      font-size: 12px;
+      span {
+        font-size: 12px;
+      }
+    }
+  }
+}
+@media (min-width: 576px) {
+  .tablePay {
+    font-size: 12px;
+
+    h2 {
+      font-size: 12px;
+    }
+    span {
+      font-size: 12px;
+    }
+    button {
+      font-size: 12px;
+      span {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+// Средние девайсы («таблетки», >= 768px)
+@media (min-width: 768px) {
+  .tablePay {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 14px;
+  }
+}
+
+// Большие девайсы (десктопы, >= 992px)
+@media (min-width: 992px) {
+  .tablePay {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 14px;
+  }
+}
+
+// Экстрабольшие девайсы (большие десктопы, >= 1200px)
+@media (min-width: 1200px) {
+  .tablePay {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 14px;
+  }
+}
+
 .tablePay {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 14px;
+
   padding: 10px;
   span {
     padding: 15px;
@@ -248,6 +324,11 @@ export default {
   h2 {
     padding: 15px;
   }
+}
+.model-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .form-button-pay {
   display: flex;

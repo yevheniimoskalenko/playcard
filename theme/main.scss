@@ -24,3 +24,8 @@ input.el-input__inner {
     background: #7c0fc5;
   }
 }
+.el-dialog{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
